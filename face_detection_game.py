@@ -56,7 +56,7 @@ def reset_game():
 # Add the first falling object
 falling_objects.append(create_falling_object(initial_speed))
 
-# Reset the game to start
+# Reset the game
 reset_game()
 
 # Game loop
@@ -68,7 +68,7 @@ while True:
     # Flip the frame horizontally to correct mirroring
     frame = cv2.flip(frame, 1)
 
-    # Convert to grayscale for face detection
+    # Convert to grayscale to improve face detection using the Haar Cascade classifier
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # Detect faces
@@ -77,7 +77,7 @@ while True:
     # This will position the catcher based on teh detected face
     for (x, y, w, h) in faces:
         catcher_x = (x + w // 2) - (catcher_width // 2) # Aligns the catcher with the center of the detected face
-        catcher_x = max(0, min(screen_width - catcher_width, catcher_x))  # This keeps the catcher within screen bounds
+        catcher_x = max(0, min(screen_width - catcher_width, catcher_x))  # And keeps the catcher within screen bounds
 
     # Draw the catcher
     draw_catcher(frame, catcher_x, screen_height - catcher_height, catcher_width, catcher_height, color=(0, 255, 0))
@@ -114,7 +114,7 @@ while True:
             break
         continue
 
-    # Gradually increase the falling speed as time progresses
+    # Gradually increase the falling speed as time progresses (up to the maximum speed)
     current_speed = min(initial_speed + int(elapsed_time // 5), max_speed)
 
     # Update falling objects
